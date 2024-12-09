@@ -147,7 +147,9 @@ namespace FSTHM {
 		DATA PROCESSING
 
 	*/
-	cv::Mat createFocusStackedImage(const std::vector<cv::Mat>& images, std::vector<cv::Mat> focus_maps);
+	cv::Mat createSinglePixelFocusStackedImage(const std::vector<cv::Mat>& images, std::vector<cv::Mat> focus_maps, bool use_alignment);
+	cv::Mat createPatchesFocusStackedImage(const std::vector<cv::Mat>& images, std::vector<cv::Mat> focus_maps, int patch_size, bool use_alignment);
+	cv::Mat alignImages(const cv::Mat& image1, const cv::Mat& image2, const std::string& featureType);
 	std::vector<cv::Mat> convertFocusMapsTo32F(const std::vector<cv::Mat>& focus_maps);
 	void saveResult(const cv::Mat& image, const std::string& filename, const std::string& output_path);
 
