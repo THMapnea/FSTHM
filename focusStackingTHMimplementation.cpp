@@ -1846,21 +1846,99 @@ std::vector<cv::Mat> FSTHM::calculateShannonWavelets(const std::vector<cv::Mat>&
 
 /*
 
-	FUNCTION THAT BUILDS THE IMAGE
+	FUNCTION THAT ALIGN THE IMAGES FOR A BETTER RESULT
 
 */
-cv::Mat FSTHM::createFocusStackedImage(const std::vector<cv::Mat>& images, std::vector<cv::Mat> focus_maps) {
+cv::Mat FSTHM::alignImages(const cv::Mat& image1, const cv::Mat& image2, const std::string& featureType = "ORB") {
+	// Validate input images
+	if (image1.empty() || image2.empty()) {
+		throw std::invalid_argument("Input images must not be empty.");
+	}
+
+	// Initialize feature detector and descriptor extractor
+	cv::Ptr<cv::Feature2D> featureExtractor;
+	if (featureType == "ORB") {
+		featureExtractor = cv::ORB::create();
+	}
+	else if (featureType == "SIFT") {
+		featureExtractor = cv::SIFT::create();
+	}
+	else {
+		throw std::invalid_argument("Invalid feature type. Supported types: 'ORB', 'SIFT'.");
+	}
+
+	// Detect keypoints and compute descriptors
+	std::vector<cv::KeyPoint> keypoints1, keypoints2;
+	cv::Mat descriptors1, descriptors2;
+	featureExtractor->detectAndCompute(image1, cv::noArray(), keypoints1, descriptors1);
+	featureExtractor->detectAndCompute(image2, cv::noArray(), keypoints2, descriptors2);
+
+	// Match descriptors using BFMatcher or FLANN-based matcher
+	std::vector<cv::DMatch> matches;
+	if (featureType == "ORB") {
+		cv::BFMatcher matcher(cv::NORM_HAMMING);
+		matcher.match(descriptors1, descriptors2, matches);
+	}
+	else if (featureType == "SIFT") {
+		cv::FlannBasedMatcher matcher;
+		matcher.match(descriptors1, descriptors2, matches);
+	}
+
+	// Sort matches by distance
+	std::sort(matches.begin(), matches.end(), [](const cv::DMatch& a, const cv::DMatch& b) {
+		return a.distance < b.distance;
+		});
+
+	// Keep only the top matches
+	const int numGoodMatches = static_cast<int>(0.15 * matches.size());
+	matches.erase(matches.begin() + numGoodMatches, matches.end());
+
+	// Extract matched keypoints
+	std::vector<cv::Point2f> points1, points2;
+	for (const auto& match : matches) {
+		points1.push_back(keypoints1[match.queryIdx].pt);
+		points2.push_back(keypoints2[match.trainIdx].pt);
+	}
+
+	// Find homography or affine transformation
+	cv::Mat transformation;
+	if (points1.size() >= 4) { // At least 4 points required for homography
+		transformation = cv::findHomography(points2, points1, cv::RANSAC);
+	}
+	else {
+		throw std::runtime_error("Not enough matches to compute transformation.");
+	}
+
+	// Align the second image
+	cv::Mat alignedImage;
+	cv::warpPerspective(image2, alignedImage, transformation, image1.size());
+
+	return alignedImage;
+}
+
+
+
+/*
+
+	FUNCTION THAT CREATES THE RESULTING IMAGE BY USING SINGLE PIXELS TO SEARCH FOR FOCUS
+
+*/
+cv::Mat FSTHM::createSinglePixelFocusStackedImage(const std::vector<cv::Mat>& images, std::vector<cv::Mat> focus_maps, bool use_alignment) {
 	// Validate input
 	if (images.empty() || focus_maps.empty() || images.size() != focus_maps.size()) {
 		throw std::invalid_argument("Number of images and focus maps must be the same and non-zero.");
 	}
 
-	// Assume all images have the same size and type
-	cv::Size image_size = images[0].size();
-	CV_Assert(images[0].type() == CV_8UC3); // Assuming images are color
-	CV_Assert(focus_maps[0].type() == CV_32F); // Assuming focus maps are float values
+	// Align images if requested
+	std::vector<cv::Mat> aligned_images = images;
+	if (use_alignment) {
+		for (size_t i = 1; i < images.size(); ++i) {
+			aligned_images[i] = alignImages(images[0], images[i], "ORB");
+		}
+	}
 
-	// Check and resize focus maps if needed
+	// Resize focus maps to match the aligned image size
+	cv::Size image_size = aligned_images[0].size();
 	for (auto& focus_map : focus_maps) {
 		if (focus_map.size() != image_size) {
 			cv::resize(focus_map, focus_map, image_size, 0, 0, cv::INTER_LINEAR);
@@ -1879,7 +1957,7 @@ cv::Mat FSTHM::createFocusStackedImage(const std::vector<cv::Mat>& images, std::
 			// Find the best focused image for this pixel
 			for (size_t i = 0; i < focus_maps.size(); ++i) {
 				float focus_value = focus_maps[i].at<float>(y, x);
-				if (focus_value > max_focus_value) {
+				if (focus_value > max_focus_value && aligned_images[i].at<cv::Vec3b>(y, x) != cv::Vec3b(0, 0, 0)) {
 					max_focus_value = focus_value;
 					best_image_index = static_cast<int>(i);
 				}
@@ -1887,13 +1965,80 @@ cv::Mat FSTHM::createFocusStackedImage(const std::vector<cv::Mat>& images, std::
 
 			// Assign the pixel from the best-focused image
 			if (best_image_index >= 0) {
-				result.at<cv::Vec3b>(y, x) = images[best_image_index].at<cv::Vec3b>(y, x);
+				result.at<cv::Vec3b>(y, x) = aligned_images[best_image_index].at<cv::Vec3b>(y, x);
 			}
 		}
 	}
 
 	return result;
 }
+
+
+
+/*
+
+	FUNCTION THAT CREATES THE RESULTING IMAGE BY USING PATCHES TO SEARCH FOR FOCUS
+
+*/
+cv::Mat FSTHM::createPatchesFocusStackedImage(const std::vector<cv::Mat>& images, std::vector<cv::Mat> focus_maps, int patch_size, bool use_alignment) {
+	// Validate input
+	if (images.empty() || focus_maps.empty() || images.size() != focus_maps.size()) {
+		throw std::invalid_argument("Number of images and focus maps must be the same and non-zero.");
+	}
+
+	// Align images if requested
+	std::vector<cv::Mat> aligned_images = images;
+	if (use_alignment) {
+		for (size_t i = 1; i < images.size(); ++i) {
+			aligned_images[i] = alignImages(images[0], images[i], "ORB");
+		}
+	}
+
+	// Resize focus maps to match the aligned image size and normalize
+	cv::Size image_size = aligned_images[0].size();
+	for (auto& focus_map : focus_maps) {
+		if (focus_map.size() != image_size) {
+			cv::resize(focus_map, focus_map, image_size, 0, 0, cv::INTER_LINEAR);
+		}
+		cv::normalize(focus_map, focus_map, 0, 1, cv::NORM_MINMAX); // Normalize focus map to [0, 1]
+	}
+
+	// Smooth focus maps using a patch-based average
+	for (auto& focus_map : focus_maps) {
+		cv::boxFilter(focus_map, focus_map, -1, cv::Size(patch_size, patch_size)); // Patch-based averaging
+	}
+
+	// Create the result image and the max focus map
+	cv::Mat result(image_size, CV_8UC3, cv::Scalar(0, 0, 0));
+	cv::Mat max_focus_map(image_size, CV_32F, cv::Scalar(-1.0f)); // Max focus value per pixel
+
+	// Iterate through all images
+	for (size_t i = 0; i < aligned_images.size(); ++i) {
+		// Convert the aligned image to grayscale for black pixel check
+		cv::Mat gray_image;
+		cv::cvtColor(aligned_images[i], gray_image, cv::COLOR_BGR2GRAY);
+
+		// Create a binary mask where the image is not black
+		cv::Mat non_black_mask = (gray_image > 0);
+
+		// Create the mask for the focus map comparison
+		cv::Mat current_mask = (focus_maps[i] > max_focus_map);
+		cv::bitwise_and(current_mask, non_black_mask, current_mask); // Combine with non-black mask
+
+		// Update the max focus map only where the current mask is true
+		for (int y = 0; y < image_size.height; ++y) {
+			for (int x = 0; x < image_size.width; ++x) {
+				if (current_mask.at<uchar>(y, x)) {
+					max_focus_map.at<float>(y, x) = focus_maps[i].at<float>(y, x);
+					result.at<cv::Vec3b>(y, x) = aligned_images[i].at<cv::Vec3b>(y, x);
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
 
 /*
 
