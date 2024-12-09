@@ -13,61 +13,61 @@
 
 */
 //D4
-const std::vector<float> D4_low_pass = { 0.48296f, 0.83652f, 0.22414f, -0.12941f };
-const std::vector<float> D4_high_pass = { -0.12941f, -0.22414f, 0.83652f, -0.48296f };
+const std::vector<float> FSTHM::D4_low_pass = { 0.48296f, 0.83652f, 0.22414f, -0.12941f };
+const std::vector<float> FSTHM::D4_high_pass = { -0.12941f, -0.22414f, 0.83652f, -0.48296f };
 
 //D6
-const std::vector<float> D6_low_pass = {
+const std::vector<float> FSTHM::D6_low_pass = {
 	0.33267f, 0.80689f, 0.45988f, -0.13501f, -0.08544f, 0.03522f
 };
-const std::vector<float> D6_high_pass = {
+const std::vector<float> FSTHM::D6_high_pass = {
 	0.03522f, 0.08544f, -0.13501f, -0.45988f, 0.80689f, -0.33267f
 };
 
 //D8
-const std::vector<float> D8_low_pass = {
+const std::vector<float> FSTHM::D8_low_pass = {
 	0.23038f, 0.71485f, 0.63088f, -0.02798f, -0.18703f, 0.03084f, 0.03288f, -0.01060f
 };
-const std::vector<float> D8_high_pass = {
+const std::vector<float> FSTHM::D8_high_pass = {
 	-0.01060f, -0.03288f, 0.03084f, 0.18703f, -0.02798f, -0.63088f, 0.71485f, -0.23038f
 };
 
 //D10
-const std::vector<float> D10_low_pass = {
+const std::vector<float> FSTHM::D10_low_pass = {
 	0.16010f, 0.60382f, 0.72431f, 0.13843f, -0.24229f, -0.03224f, 0.07757f, -0.00624f,
 	-0.01258f, 0.00333f
 };
-const std::vector<float> D10_high_pass = {
+const std::vector<float> FSTHM::D10_high_pass = {
 	0.00333f, 0.01258f, -0.00624f, -0.07757f, -0.03224f, 0.24229f, 0.13843f, -0.72431f,
 	0.60382f, -0.16010f
 };
 
 //D12
-const std::vector<float> D12_low_pass = {
+const std::vector<float> FSTHM::D12_low_pass = {
 	0.11154f, 0.49462f, 0.75113f, 0.31525f, -0.22626f, -0.12927f, 0.09750f, 0.02752f,
 	-0.03158f, 0.00055f, 0.00343f, -0.00067f
 };
-const std::vector<float> D12_high_pass = {
+const std::vector<float> FSTHM::D12_high_pass = {
 	-0.00067f, -0.00343f, 0.00055f, 0.03158f, 0.02752f, -0.09750f, -0.12927f, 0.22626f,
 	0.31525f, -0.75113f, 0.49462f, -0.11154f
 };
 
 //D14
-const std::vector<float> D14_low_pass = {
+const std::vector<float> FSTHM::D14_low_pass = {
 	0.07785f, 0.39617f, 0.72913f, 0.46978f, -0.14329f, -0.22483f, 0.07181f, 0.08056f,
 	-0.03887f, -0.01699f, 0.01276f, -0.00043f, -0.00177f, 0.00035f
 };
-const std::vector<float> D14_high_pass = {
+const std::vector<float> FSTHM::D14_high_pass = {
 	0.00035f, 0.00177f, -0.00043f, -0.01276f, -0.01699f, 0.03887f, 0.08056f, -0.07181f,
 	-0.22483f, 0.14329f, 0.46978f, -0.72913f, 0.39617f, -0.07785f
 };
 
 //D16
-const std::vector<float> D16_low_pass = {
+const std::vector<float> FSTHM::D16_low_pass = {
 	0.05441f, 0.31287f, 0.67563f, 0.58536f, -0.01583f, -0.28402f, 0.00047f, 0.12875f,
 	-0.01737f, -0.04408f, 0.01398f, 0.00874f, -0.00482f, -0.00024f, 0.00107f, -0.00020f
 };
-const std::vector<float> D16_high_pass = {
+const std::vector<float> FSTHM::D16_high_pass = {
 	-0.00020f, -0.00107f, -0.00024f, 0.00482f, 0.00874f, -0.01398f, -0.04408f, 0.01737f,
 	0.12875f, -0.00047f, -0.28402f, 0.01583f, 0.58536f, -0.67563f, 0.31287f, -0.05441f
 };
@@ -80,18 +80,18 @@ const std::vector<float> D16_high_pass = {
 
 */
 //S4
-std::vector<float> sym4_low_pass = {
-	-0.07576571478927333f,
-	 0.02963552764599851f,
-	 0.49761866763201545f,
-	 0.8037387518059161f,
-	 0.29785779560527736f,
-	-0.09921954357684722f,
-	-0.012603967262037833f,
-	 0.032223100604078156f
+const std::vector<float> FSTHM::sym4_low_pass = {
+-0.07576571478927333f,
+ 0.02963552764599851f,
+ 0.49761866763201545f,
+ 0.8037387518059161f,
+ 0.29785779560527736f,
+-0.09921954357684722f,
+-0.012603967262037833f,
+ 0.032223100604078156f
 };
 
-std::vector<float> sym4_high_pass = {
+const std::vector<float> FSTHM::sym4_high_pass = {
 	 0.032223100604078156f,
 	 0.012603967262037833f,
 	-0.09921954357684722f,
@@ -103,7 +103,7 @@ std::vector<float> sym4_high_pass = {
 };
 
 //S6
-std::vector<float> sym6_low_pass = {
+const std::vector<float> FSTHM::sym6_low_pass = {
 	 0.015404109327027373f,
 	-0.0034907120842174702f,
 	-0.11799011114819057f,
@@ -118,7 +118,7 @@ std::vector<float> sym6_low_pass = {
 	-0.007800708325034148f
 };
 
-std::vector<float> sym6_high_pass = {
+const std::vector<float> FSTHM::sym6_high_pass = {
 	-0.007800708325034148f,
 	-0.0017677118642428036f,
 	 0.044724901770665779f,
@@ -134,7 +134,7 @@ std::vector<float> sym6_high_pass = {
 };
 
 //S8
-std::vector<float> sym8_low_pass = {
+const std::vector<float> FSTHM::sym8_low_pass = {
 	-0.0033824159510061256f,
 	-0.00054213233180001076f,
 	 0.031695087811492981f,
@@ -153,7 +153,7 @@ std::vector<float> sym8_low_pass = {
 	 0.0018899503327594609f
 };
 
-std::vector<float> sym8_high_pass = {
+const std::vector<float> FSTHM::sym8_high_pass = {
 	 0.0018899503327594609f,
 	 0.0003029205147213668f,
 	-0.014952258337048231f,
@@ -180,7 +180,7 @@ std::vector<float> sym8_high_pass = {
 
 */
 //C4
-std::vector<float> coif4_low_pass = {
+const std::vector<float> FSTHM::coif4_low_pass = {
 	-0.01565572813546454f,
 	-0.0727326195128539f,
 	 0.3848648468642029f,
@@ -195,7 +195,7 @@ std::vector<float> coif4_low_pass = {
 	-0.00042699924234236515f
 };
 
-std::vector<float> coif4_high_pass = {
+const std::vector<float> FSTHM::coif4_high_pass = {
 	0.00042699924234236515f,
 	0.00012083269606503066f,
 	-0.0029931690316299962f,
@@ -211,7 +211,7 @@ std::vector<float> coif4_high_pass = {
 };
 
 //C6
-std::vector<float> coif6_low_pass = {
+const std::vector<float> FSTHM::coif6_low_pass = {
 	-0.0007205494453645122f,
 	-0.0018232088707029932f,
 	 0.005611434819393291f,
@@ -232,7 +232,7 @@ std::vector<float> coif6_low_pass = {
 	-0.00000393972539849266f
 };
 
-std::vector<float> coif6_high_pass = {
+const std::vector<float> FSTHM::coif6_high_pass = {
 	 0.00000393972539849266f,
 	 0.000013680421484497926f,
 	-0.00007804255378677326f,
@@ -254,7 +254,7 @@ std::vector<float> coif6_high_pass = {
 };
 
 //C8
-std::vector<float> coif8_low_pass = {
+const std::vector<float> FSTHM::coif8_low_pass = {
 	-0.00021208083980379827f,
 	-0.0005789333798969873f,
 	 0.0025879090265397886f,
@@ -281,7 +281,7 @@ std::vector<float> coif8_low_pass = {
 	-0.000000051131435272605515f
 };
 
-std::vector<float> coif8_high_pass = {
+const std::vector<float> FSTHM::coif8_high_pass = {
 	 0.000000051131435272605515f,
 	 0.00000011558636332385817f,
 	-0.000019329074517485016f,
@@ -316,7 +316,7 @@ std::vector<float> coif8_high_pass = {
 
 */
 //BIOR2.2
-std::vector<float> bior2_2_low_decomp = {
+const std::vector<float> FSTHM::bior2_2_low_decomp = {
 	0.0f,
 	0.03782845550726404f,
 	-0.02384946501938000f,
@@ -329,7 +329,7 @@ std::vector<float> bior2_2_low_decomp = {
 	0.03782845550726404f
 };
 
-std::vector<float> bior2_2_high_decomp = {
+const std::vector<float> FSTHM::bior2_2_high_decomp = {
 	0.0f,
 	-0.06453888262869706f,
 	0.04068941760955844f,
@@ -342,7 +342,7 @@ std::vector<float> bior2_2_high_decomp = {
 	0.0f
 };
 
-std::vector<float> bior2_2_low_recon = {
+const std::vector<float> FSTHM::bior2_2_low_recon = {
 	0.0,
 	-0.06453888262869706f,
 	-0.04068941760955844f,
@@ -355,7 +355,7 @@ std::vector<float> bior2_2_low_recon = {
 	0.0f
 };
 
-std::vector<float> bior2_2_high_recon = {
+const std::vector<float> FSTHM::bior2_2_high_recon = {
 	0.0f,
 	0.03782845550726404f,
 	0.02384946501938000f,
@@ -369,7 +369,7 @@ std::vector<float> bior2_2_high_recon = {
 };
 
 //BIOR3.3
-std::vector<float> bior3_3_low_decomp = {
+const std::vector<float> FSTHM::bior3_3_low_decomp = {
 	-0.035226291882100656f,
 	-0.08544127388224149f,
 	 0.13501102001039084f,
@@ -382,7 +382,7 @@ std::vector<float> bior3_3_low_decomp = {
 	 0.0f
 };
 
-std::vector<float> bior3_3_high_decomp = {
+const std::vector<float> FSTHM::bior3_3_high_decomp = {
 	-0.3326705529509569f,
 	 0.8068915093133388f,
 	-0.4598775021193313f,
@@ -395,7 +395,7 @@ std::vector<float> bior3_3_high_decomp = {
 	 0.0f
 };
 
-std::vector<float> bior3_3_low_recon = {
+const std::vector<float> FSTHM::bior3_3_low_recon = {
 	0.0f,
 	0.0f,
 	0.0f,
@@ -408,7 +408,7 @@ std::vector<float> bior3_3_low_recon = {
 	 0.035226291882100656f
 };
 
-std::vector<float> bior3_3_high_recon = {
+const std::vector<float> FSTHM::bior3_3_high_recon = {
 	0.0f,
 	0.0f,
 	0.0f,
@@ -422,7 +422,7 @@ std::vector<float> bior3_3_high_recon = {
 };
 
 //BIOR4.4
-std::vector<float> bior4_4_high_decomp = {
+const std::vector<float> FSTHM::bior4_4_high_decomp = {
 	 0.0f,
 	 0.0f,
 	-0.04143203796014927f,
@@ -439,7 +439,7 @@ std::vector<float> bior4_4_high_decomp = {
 	 0.0f
 };
 
-std::vector<float> bior4_4_low_decomp = {
+const std::vector<float> FSTHM::bior4_4_low_decomp = {
 	 0.0f,
 	 0.037828455506995005f,
 	-0.023849465019556843f,
@@ -454,7 +454,7 @@ std::vector<float> bior4_4_low_decomp = {
 };
 
 
-std::vector<float> bior4_4_low_recon = {
+const std::vector<float> FSTHM::bior4_4_low_recon = {
 	 0.0f,
 	-0.06453888262893845f,
 	-0.04068941760955844f,
@@ -466,7 +466,7 @@ std::vector<float> bior4_4_low_recon = {
 	 0.0f
 };
 
-std::vector<float> bior4_4_high_recon = {
+const std::vector<float> FSTHM::bior4_4_high_recon = {
 	 0.0f,
 	 0.037828455506995005f,
 	 0.023849465019556843f,
@@ -486,10 +486,9 @@ std::vector<float> bior4_4_high_recon = {
 	CENTER FREQUENCY AND BANDWIDTH
 
 */
-float morlet_center_frequency = 0.2f;
-float morlet_sigma = 0.8f;
-float mexican_hat_sigma = 0.2f;
-
+const float FSTHM::morlet_center_frequency = 0.2f;
+const float FSTHM::morlet_sigma = 0.8f;
+const float FSTHM::mexican_hat_sigma = 0.2f;
 
 
 
