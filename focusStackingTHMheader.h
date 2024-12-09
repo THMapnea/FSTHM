@@ -10,6 +10,131 @@
 
 
 namespace FSTHM {
+
+	/*
+
+		DAUBECHIS COEFFICIENTS
+
+	*/
+	//D4
+	extern const std::vector<float> D4_low_pass;
+	extern const std::vector<float> D4_high_pass;
+
+	//D6
+	extern const std::vector<float> D6_low_pass;
+	extern const std::vector<float> D6_high_pass;
+
+	//D8
+	extern const std::vector<float> D8_low_pass;
+	extern const std::vector<float> D8_high_pass;
+
+	//D10
+	extern const std::vector<float> D10_low_pass;
+	extern const std::vector<float> D10_high_pass;
+
+	//D12
+	extern const std::vector<float> D12_low_pass;
+	extern const std::vector<float> D12_high_pass;
+
+	//D14
+	extern const std::vector<float> D14_low_pass;
+	extern const std::vector<float> D14_high_pass;
+
+	//D16
+	extern const std::vector<float> D16_low_pass ;
+	extern const std::vector<float> D16_high_pass;
+
+
+
+	/*
+
+		SYMLET COEFFICIENTS
+
+	*/
+	//S4
+	extern const std::vector<float> sym4_low_pass;
+
+	extern const std::vector<float> sym4_high_pass;
+
+	//S6
+	extern const std::vector<float> sym6_low_pass;
+
+	extern const std::vector<float> sym6_high_pass;
+
+	//S8
+	extern const std::vector<float> sym8_low_pass;
+
+	extern const std::vector<float> sym8_high_pass;
+
+
+
+	/*
+
+		COIFLET COEFFICIENT
+
+	*/
+	//C4
+	extern const std::vector<float> coif4_low_pass;
+
+	extern const std::vector<float> coif4_high_pass;
+
+	//C6
+	extern const std::vector<float> coif6_low_pass;
+
+	extern const std::vector<float> coif6_high_pass;
+
+	//C8
+	extern const std::vector<float> coif8_low_pass;
+
+	extern const std::vector<float> coif8_high_pass;
+
+
+
+	/*
+
+		BIOR COEFFICIENT
+
+	*/
+	//BIOR2.2
+	extern const std::vector<float> bior2_2_low_decomp;
+
+	extern const std::vector<float> bior2_2_high_decomp;
+
+	extern const std::vector<float> bior2_2_low_recon;
+
+	extern const std::vector<float> bior2_2_high_recon;
+
+	//BIOR3.3
+	extern const std::vector<float> bior3_3_low_decomp;
+
+	extern const std::vector<float> bior3_3_high_decomp;
+
+	extern const std::vector<float> bior3_3_low_recon;
+
+	extern const std::vector<float> bior3_3_high_recon;
+
+	//BIOR4.4
+	extern const std::vector<float> bior4_4_high_decomp;
+
+	extern const std::vector<float> bior4_4_low_decomp;
+
+	extern const std::vector<float> bior4_4_low_recon;
+
+	extern const std::vector<float> bior4_4_high_recon;
+
+
+
+	/*
+
+		CENTER FREQUENCY AND BANDWIDTH
+
+	*/
+	extern const float morlet_center_frequency;
+	extern const float morlet_sigma;
+	extern const float mexican_hat_sigma;
+
+
+
 	/*
 
 	DATA RETRIEVING
